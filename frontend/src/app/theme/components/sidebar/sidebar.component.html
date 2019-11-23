@@ -1,0 +1,17 @@
+<div class="sidebar-outer">
+  <a
+    class="logo d-flex align-items-center"
+    routerLink="/"
+    (click)="closeSubMenus()"
+    *ngIf="settings.theme.sidebarIsFixed"
+  >
+    <span class="logo-lg">
+      <img [src]="settings.theme.logoUrl()" style="min-height: 25px; max-height: 30px" [alt]="settings.title" />
+    </span>
+  </a>
+  <div *ngIf="isMenuAvailable">
+    <perfect-scrollbar style="max-height: 93vh;">
+      <app-vertical-menu [menuItems]="menuItems">></app-vertical-menu>
+    </perfect-scrollbar>
+  </div>
+</div>

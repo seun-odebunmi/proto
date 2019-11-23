@@ -1,0 +1,93 @@
+/**** General ****/
+//$font-family: 'Roboto', sans-serif;
+$logo-font: 'MoonHouse';
+
+$top-navbar-height: 46px;
+
+$sidebar-width: 250px;
+$sidebar-compact-width: 160px;
+$sidebar-mini-width: 70px;
+
+$horizontal-menu-height: 38px;
+$horizontal-compact-menu-height: 52px;
+$horizontal-mini-menu-height: 46px;
+
+$chat-person-search-media-height: 32px;
+$chat-window-header-height: 30px;
+$chat-window-footer-height: 46px;
+
+$footer-height: auto; //28px;
+
+$primary-color: #002433;
+$accent: #dd1b16; //fallback
+$accent: var(--accent-color, #dd1b16);
+$accent-color: $accent;
+
+$dark-primary-color: #00151f;
+
+$success-color: #4bae4f;
+$dark-success-color: #378d3b;
+$info-color: #00bbd3;
+$dark-info-color: #0096a6;
+$warning-color: #fe9700;
+$dark-warning-color: #f47b00;
+$danger-color: #f34235;
+$dark-danger-color: #d22e2e;
+$gray-color: #9d9d9d;
+$dark-gray-color: #606060;
+$inverse-color: #292b2c;
+$dark-inverse-color: #1c1e1f;
+
+$breadcrumb-color: #002433;
+
+$top-navbar-bg-color: #fff;
+$top-navbar-text-color: #a6a6a6;
+$logo-color: #000;
+$logo-ng-color: $accent-color;
+
+$main-bg-color: #fff;
+$main-text-color: #565656;
+
+$info-content-bg-color: #262626;
+$info-content-icon-color: #fff;
+
+$messages-ddl-link-active-border-color: #ccc;
+
+$user-menu-bg-color: #eceeef;
+$user-menu-text-color: #262626;
+
+$side-chat-item-color: #979797;
+$side-chat-item-bg-color: #262626;
+$side-chat-item-bottom-border-color: #f5f5f5;
+
+$sidebar-bg-color: #002433;
+$active-link-bg-color: $accent-color;
+$sidebar-item-color: #bfbfbf;
+$sidebar-item-hover-color: #fff;
+$sidebar-item-hover-bg-color: $dark-primary-color;
+$sidebar-item-bottom-border-color: $dark-primary-color;
+$sidebar-item-bottom-border-shadow-color: #fff;
+$sidebar-subitem-bg-color: #000;
+
+$mini-sidebar-tooltip-color: #fff;
+$mini-sidebar-tooltip-bg-color: $sidebar-bg-color;
+$mini-sidebar-tooltip-arrow-color: $sidebar-bg-color;
+
+$mini-horizontal-menu-tooltip-color: #fff;
+$mini-horizontal-menu-tooltip-bg-color: #000;
+$mini-horizontal-menu-tooltip-arrow-color: #000;
+
+$footer-bg-color: $dark-primary-color;
+
+$box-shadow-color: $sidebar-item-hover-bg-color;
+
+$card-header-color: #f2f2f2;
+$card-header-bg-color: #f3f3f3;
+
+$login-window-bg-color: #fff;
+$login-header-bg-color: $accent-color;
+$login-text-color: #efefef;
+
+$widget-controls-color: #a6a6a6;
+
+$form-control-focus-border-color: #262626;

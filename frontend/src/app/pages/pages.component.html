@@ -1,0 +1,27 @@
+<div
+  class="wrapper-inner"
+  [ngClass]="{
+    'vertical-menu-tooltip-place':
+      settings.theme.menuType == 'mini' && settings.theme.menuOrientation == 'vertical',
+    'horizontal-menu-tooltip-place':
+      settings.theme.menuType == 'mini' && settings.theme.menuOrientation == 'horizontal'
+  }"
+>
+  <app-header></app-header>
+
+  <div
+    class="d-flex min-vh-100"
+    [ngClass]="{
+      'flex-row': settings.theme.menuOrientation == 'vertical',
+      'flex-column': settings.theme.menuOrientation != 'vertical'
+    }"
+  >
+    <app-sidebar *ngIf="settings.theme.menuOrientation == 'vertical'"></app-sidebar>
+    <div class="main-content">
+      <app-breadcrumb></app-breadcrumb>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+<app-back-top position="200"></app-back-top>

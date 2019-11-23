@@ -1,0 +1,139 @@
+<div class="row mb-4">
+  <div class="col">
+    <div widget class="card border-0 box-shadow">
+      <div class="card-header transparent border-0 text-muted pb-0">
+        <h5 class="mb-0 dib">{{ 'Labels.search' | translate }}</h5>
+        <button class="btn btn-outline-gray btn-sm pointer fr" [disabled]="!canCreateLimit()" (click)="openModal(content, this.translate.instant('Grid.create'))"><i
+            class="fa fa-plus"></i>&nbsp;
+          {{ 'Labels.add' | translate }}</button>
+      </div>
+      <hr />
+      <div class="card-body widget-body pt-0">
+        <form [formGroup]="searchForm" (ngSubmit)="loadCustomerLimit()" class="row">
+          <div class="form-group col-xl-3 col-sm-6 col-12">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label required">{{ 'Labels.searchWith' | translate }}</label>
+              </div>
+              <div class="col-md-12">
+                <select class="form-control validation-field" name="searchType" [formControl]="searchType">
+                  <option value="customerID">Login ID</option>
+                  <option value="accountNumber">Account Number</option>
+                </select>
+                <small class="text-danger" *ngIf="searchForm.get('searchType').touched">
+                  <span *ngIf="searchForm.get('searchType').hasError('required')">{{ 'Labels.searchWith' | translate }}
+                    {{ 'Labels.isRequired' |
+                    translate }}</span>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-xl-3 col-sm-6 col-12">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label required">{{ 'Labels.searchValue' | translate }}</label>
+              </div>
+              <div class="col-md-12">
+                <input type="text" class="form-control validation-field" name="searchValue" [formControl]="searchValue" />
+                <small class="text-danger" *ngIf="searchForm.get('searchValue').touched">
+                  <span *ngIf="searchForm.get('searchValue').hasError('required')">{{ 'Labels.searchValue' | translate
+                    }} {{ 'Labels.isRequired' | translate }}</span>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-xl-3 col-sm-6 col-12">
+            <div class="row">
+              <div class="col-md-12 hidden-xs-down">
+                <label class="control-label">&nbsp;</label>
+              </div>
+              <div class="col-md-12">
+                <button class='btn btn-primary' [disabled]="!searchForm.valid || isRequesting" type="submit">
+                  <i class="fa fa-search"></i>&nbsp; {{ 'Labels.search' | translate }}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div widget class="card border-0 box-shadow" *ngIf="customerInfo !== null">
+  <div class="box box-primary">
+    <div class="box-body ph3 pt3">
+      <p><label class="control-label">{{ 'Labels.customerName' | translate }}:</label> {{customerInfo.customerName}}</p>
+    </div>
+  </div>
+</div>
+
+<div widget class="card border-0 box-shadow">
+  <div class="box box-primary">
+    <div class="box-body ph3 pt3" *ngIf="customerInfo === null">
+      <p>{{ 'customerLimits.empty' | translate }}</p>
+    </div>
+    <div class="box-body">
+      <app-grid class="w-100" [gridModelInput]="settings" (onGridSync)="syncGridData($event)"></app-grid>
+      <ng-template #actionTmpl let-row="row" let-value="value">
+        <button type="button" class="btn btn-sm btn-outline-gray" [disabled]="isRequesting" (click)="edit(row)">{{
+          'Grid.edit' | translate }}</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" [disabled]="isRequesting" (click)="delete(row)">{{
+          'Grid.delete' | translate }}</button>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-d='dismiss' let-c='close'>
+  <div class="modal-header">
+    <h4 class="modal-title ttc" id="modal-basic-title">{{modalAction}} {{ 'customerLimits.title' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="setLimitForm" (ngSubmit)="onSubmit(setLimitForm.value)">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Labels.limitType' | translate }}</label>
+          <select class="form-control validation-field" [formControl]="name" *ngIf="modalAction === this.translate.instant('Grid.create')">
+            <option *ngFor="let x of filteredLimitTypes" [ngValue]="x.code">{{x.name}}</option>
+          </select>
+          <select class="form-control validation-field" [formControl]="name" *ngIf="modalAction === this.translate.instant('Grid.edit')">
+            <option *ngFor="let x of limitTypes" [ngValue]="x.code">{{x.name}}</option>
+          </select>
+          <small class="text-danger" *ngIf="setLimitForm.get('name').touched">
+            <span *ngIf="setLimitForm.get('name').hasError('required')">{{ 'Labels.limitType' | translate }} {{
+              'Labels.isRequired' | translate
+              }}</span>
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Labels.dailyCum' | translate }}</label>
+          <input [formControl]="daily" name="daily" class="form-control validation-field" type="number">
+          <small class="text-danger" *ngIf="setLimitForm.get('daily').touched">
+            <span *ngIf="setLimitForm.get('daily').hasError('required')">{{ 'Labels.dailyCum' | translate }} {{
+              'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+      </div>
+      <div class="row" *ngIf="supportPerTransactionLimit">
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Grid.th.limitPerTrans' | translate }}</label>
+          <input [formControl]="perTransaction" name="perTransaction" class="form-control validation-field" type="number">
+          <small class="text-danger" *ngIf="setLimitForm.get('perTransaction').touched">
+            <span *ngIf="setLimitForm.get('perTransaction').hasError('required')">{{ 'Grid.th.limitPerTrans' |
+              translate }}
+              {{ 'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!setLimitForm.valid || isRequesting" class="btn btn-primary">{{ 'Labels.save' |
+        translate }}</button>
+    </div>
+  </form>
+</ng-template>

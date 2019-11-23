@@ -1,0 +1,63 @@
+<form [formGroup]="searchForm" (ngSubmit)="getDashboardData()" class="row mb-2">
+  <div class="form-group col-xl-3 col-sm-4 col-6">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label">{{ 'Labels.startDate' | translate }}</label>
+      </div>
+      <div class="col-md-12">
+        <app-date-time-picker class="w-100" (dateChange)="updateDate($event, startDate)" formControlName="startDate"
+          [(dpModelInput)]="startDate"></app-date-time-picker>
+        <small class="text-danger" *ngIf="searchForm.hasError('startDate')">
+          <span>{{ searchForm.getError('startDate').text }}</span>
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-xl-3 col-sm-4 col-6">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label">{{ 'Labels.endDate' | translate }}</label>
+      </div>
+      <div class="col-md-12">
+        <app-date-time-picker class="w-100" (dateChange)="updateDate($event, endDate)" formControlName="endDate"
+          [(dpModelInput)]="endDate"></app-date-time-picker>
+      </div>
+    </div>
+  </div>
+  <div class="form-group col-xl-3 col-sm-4 col-6">
+    <div class="row">
+      <div class="col-md-12 hidden-xs-down">
+        <label class="control-label">&nbsp;</label>
+      </div>
+      <div class="col-md-12">
+        <button class="btn btn-primary" [disabled]="loaderService.isLoading | async" type="submit">
+          <i class="fa fa-search"></i>&nbsp; {{ 'Labels.search' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="row">
+  <ng-template ngFor let-d [ngForOf]="dashboardData" let-i="index">
+    <div class="col-md-3">
+      <div [ngClass]="d.chart ? 'card stats gradient-bg' : 'card stats'">
+        <div class="card-header">
+          <p>{{ d.title }}</p>
+        </div>
+        <div class="card-body">
+          <p>{{ d.total | currency: 'GHS':'':'1.2-2' }}</p>
+        </div>
+        <div class="card-footer">
+          <p>count: {{ d.volume }}</p>
+          <p>{{ d.period }}</p>
+        </div>
+      </div>
+      <div class="card mb4" *ngIf="d.chart">
+        <div class="card-body">
+          <canvas id="canvas{{ i }}" height="200">{{ d.chartObj }}</canvas>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

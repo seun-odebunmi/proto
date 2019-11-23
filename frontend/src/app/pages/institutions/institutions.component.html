@@ -1,0 +1,121 @@
+<div class="row mb-4">
+  <div class="col">
+    <div widget class="card border-0 box-shadow">
+      <div class="card-header transparent border-0 text-muted pb-0">
+        <h5 class="mb-0 dib">{{ 'Labels.search' | translate }}</h5>
+        <button class="btn btn-outline-gray btn-sm pointer fr" (click)="openModal(content, this.translate.instant('Grid.create'))"><i
+            class="fa fa-plus"></i>&nbsp;
+          {{ 'Labels.add' | translate }}</button>
+      </div>
+      <hr />
+      <div class="card-body widget-body pt-0">
+        <form (ngSubmit)="loadInstitutions()" class="row">
+          <div class="form-group col-xl-3 col-sm-6 col-12">
+            <div class="row">
+              <div class="col-md-12">
+                <label class="control-label">{{ 'Labels.country' | translate }}</label>
+              </div>
+              <div class="col-md-12">
+                <select class="form-control" name="countrySearch" [(ngModel)]="countrySearch">
+                  <option value="">ALL</option>
+                  <option *ngFor="let x of countries" [ngValue]="x.id">{{x.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-xl-3 col-sm-6 col-12">
+            <div class="row">
+              <div class="col-md-12 hidden-xs-down">
+                <label class="control-label">&nbsp;</label>
+              </div>
+              <div class="col-md-12">
+                <button class='btn btn-primary pointer' [disabled]="loaderService.isLoading | async" type="submit">
+                  <i class="fa fa-search"></i>&nbsp; {{ 'Labels.search' | translate }}</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div widget class="card border-0 box-shadow">
+  <div class="box box-primary">
+    <div class="box-body">
+      <div class="box-body">
+        <button class="btn btn-outline-secondary btn-sm ma2 pull-right" *ngIf="checkGridDataLoad()" [disabled]="loaderService.isLoading | async"
+          (click)="downloadReport()" title="{{ 'Labels.download' | translate }}" type="button">
+          <i class="fa fa-download"></i>&nbsp; {{ 'Labels.download' | translate }}
+        </button>
+        <app-grid class="w-100" [gridModelInput]="settings" (onGridSync)="syncGridData($event)"></app-grid>
+        <ng-template #actionTmpl let-row="row" let-value="value">
+          <button type="button" class="btn btn-sm btn-outline-gray" (click)="edit(row)">{{
+            'Grid.edit' | translate }}</button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-d='dismiss' let-c='close'>
+  <div class="modal-header">
+    <h4 class="modal-title ttc" id="modal-basic-title">{{modalAction}} {{ 'Labels.institution' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="institutionForm" class="ph2" (ngSubmit)="onSubmit(institutionForm.value)">
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Labels.country' | translate }}</label>
+          <select [formControl]="country_id" class="form-control validation-field">
+            <option *ngFor="let x of countries" [ngValue]="x.id">{{x.name}}</option>
+          </select>
+          <small class="text-danger" *ngIf="institutionForm.get('country_id').touched">
+            <span *ngIf="institutionForm.get('country_id').hasError('required')">{{ 'Labels.country' | translate }} {{
+              'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Grid.th.name' | translate }}</label>
+          <input [formControl]="name" class="form-control validation-field" type="text">
+          <small class="text-danger" *ngIf="institutionForm.get('name').touched">
+            <span *ngIf="institutionForm.get('name').hasError('required')">{{ 'Grid.th.name' | translate }} {{
+              'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Grid.th.code' | translate }}</label>
+          <input [formControl]="code" class="form-control validation-field" type="text">
+          <small class="text-danger" *ngIf="institutionForm.get('code').touched">
+            <span *ngIf="institutionForm.get('code').hasError('required')">{{ 'Grid.th.code' | translate }} {{
+              'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Labels.accentColor' | translate }}</label>
+          <input [formControl]="accentColor" class="form-control validation-field" type="color">
+          <small class="text-danger" *ngIf="institutionForm.get('accentColor').touched">
+            <span *ngIf="institutionForm.get('accentColor').hasError('required')">{{ 'Labels.accentColor' | translate }} {{
+              'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+        <div class="form-group col-xl-4 col-sm-6 col-12">
+          <label class="control-label required">{{ 'Labels.logo' | translate }}</label>
+          <input class="form-control validation-field" type="file" name="file" (change)='onFileChange($event)'>
+          <input type="hidden" name="logo" [formControl]="logo" />
+          <small class="text-danger">
+            <span *ngIf="institutionForm.get('logo').hasError('required')">{{ 'Labels.logo' | translate }} {{
+              'Labels.isRequired' | translate }}</span>
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!institutionForm.valid || (loaderService.isLoading | async)" class="btn btn-primary">{{ 'Labels.submit' |
+        translate }}</button>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content>
+    <p>Please detail the reason for the deactivation of the client</p>
+    <div mat-form-field>
+        <textarea class="form-control" rows="5" matInput [(ngModel)]="data.message"></textarea>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button class="btn btn-danger mr2" mat-button (click)="onNoClick()">Cancel</button>
+    <button class="btn btn-primary" mat-button [mat-dialog-close]="data.message" [disabled]="!data.message || data.message.trim() === ''">Send</button>
+</div>

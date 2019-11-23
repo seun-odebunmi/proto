@@ -1,0 +1,169 @@
+{
+  "Grid": {
+    "activate": "Activate",
+    "active": "Active",
+    "approve": "Approve",
+    "changeStatus": "Change Status",
+    "create": "Create",
+    "deactivate": "Deactivate",
+    "decline": "Decline",
+    "delete": "Delete",
+    "details": "Details",
+    "edit": "Edit",
+    "empty": "No Data Found",
+    "enroll": "Enroll",
+    "inactive": "Inactive",
+    "release": "Release",
+    "th": {
+      "action": "Action",
+      "activationDate": "Activation Date",
+      "amount": "Amount",
+      "auditDate": "Audit Date",
+      "branch": "Branch",
+      "branchCode": "Branch Code",
+      "cardCategory": "Card Category",
+      "cardHolderName": "Card Holder Name",
+      "cardNumber": "Card Number",
+      "cardType": "Card Type",
+      "charge": "Charge",
+      "code": "Code",
+      "currency": "Currency",
+      "customer": "Customer",
+      "dailyLimit": "Daily Limit",
+      "date": "Date",
+      "description": "Description",
+      "deviceName": "Device Name",
+      "deviceState": "Device State",
+      "firstName": "First Name",
+      "gatewayCode": "Gateway Code",
+      "id": "ID",
+      "initEmail": "Initiator Email",
+      "initUsername": "Initiator Username",
+      "label": "Label",
+      "lastLogin": "Last Login",
+      "lastName": "Last Name",
+      "limitPerTrans": "Limit per Transaction",
+      "model": "Model",
+      "name": "Name",
+      "processor": "Processor",
+      "regDate": "Registration Date",
+      "requestDate": "Request Date",
+      "responseCode": "Response Code",
+      "responseDesc": "Response Description",
+      "status": "Status",
+      "userComp": "User Computer"
+    }
+  },
+  "Labels": {
+    "accentColor": "Accent Color",
+    "accountNumber": "Account Number",
+    "actionBy": "Action By",
+    "actionOn": "Action On",
+    "add": "Add",
+    "appVersionNo": "App Version Number",
+    "auditType": "Audit Type",
+    "backTo": "Back to",
+    "bank": "Bank",
+    "bankName": "Bank Name",
+    "biller": "Biller",
+    "billerName": "Biller Name",
+    "category": "Category",
+    "categoryName": "Category Name",
+    "count": "Count",
+    "country": "Country",
+    "custId": "Customer ID",
+    "customerName": "Customer Name",
+    "dailyCum": "Daily Cumulative Transaction Limit",
+    "download": "Download",
+    "email": "Email",
+    "endDate": "End Date",
+    "fixedAmount": "Fixed Amount",
+    "generate": "Generate",
+    "home": "Home",
+    "increase": "Increase",
+    "institution": "Institution",
+    "invalid": "Invalid",
+    "isRequired": "is required",
+    "limitType": "Limit Type",
+    "logIn": "Login",
+    "logo": "Logo",
+    "mobileNumber": "Mobile Number",
+    "noRoute": "No route has been configured for you. Contact your supervisor.",
+    "password": "Password",
+    "powered": "Powered by",
+    "primaryAccountNumber": "Primary Account Number",
+    "product": "Product",
+    "productGroup": "Product Group",
+    "productName": "Product Name",
+    "profile": "Profile",
+    "regStatus": "Registration Status",
+    "report": "Report",
+    "reqStatus": "Request Status",
+    "requestType": "Request Type",
+    "reset": "Reset",
+    "role": "Role",
+    "save": "Save",
+    "search": "Search",
+    "searchValue": "Search Value",
+    "searchWith": "Search With",
+    "selectOne": "Select One",
+    "sessionExpired": "User session has expired. Login again.",
+    "setPin": "Set Pin",
+    "sourceAccount": "Source Account",
+    "startDate": "Start Date",
+    "submit": "Submit",
+    "token": "Token",
+    "transactionType": "Transaction Type",
+    "user": "User",
+    "username": "Username",
+    "validationSupport": "Validation Support",
+    "verify": "Verify",
+    "viewMore": "View More Details about"
+  },
+  "Login": {
+    "title": "Sign In"
+  },
+  "Logout": {
+    "title": "Log out"
+  },
+  "activities": {
+    "heading": "List of Activities"
+  },
+  "branches": {
+    "heading": "List of Branches"
+  },
+  "customerLimits": {
+    "empty": "No Customer found. Refine search with the filter above",
+    "title": "Customer Limit"
+  },
+  "globalAuthLimits": {
+    "heading": "List of Global Authentication Limits",
+    "title": "Global Authentication Limit"
+  },
+  "globalLimits": {
+    "heading": "List of Global Limits",
+    "title": "Global Limit"
+  },
+  "institutions": {
+    "heading": "List of Institutions"
+  },
+  "password": {
+    "change": "Change Password",
+    "confirm": "Confirm Password",
+    "min": "Minimum of 6 characters",
+    "new": "New Password",
+    "noMatch": "Passwords do not match",
+    "notLong": "Password is not long enough",
+    "old": "Old Password",
+    "reset": "Reset Password"
+  },
+  "passwordPolicy": {
+    "heading": "List of Password Policies"
+  },
+  "roleFunctions": {
+    "heading": "List of Role Functions"
+  },
+  "roles": {
+    "heading": "List of Roles"
+  }
+}
