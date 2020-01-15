@@ -1,7 +1,0 @@
-<div class="input-group">
-    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dpModel" (ngModelChange)="updateDate()" ngbDatepicker #dp="ngbDatepicker"
-        [maxDate]="maxDate()" [markDisabled]="isDisabled" (click)="dp.toggle()">
-    <div class="input-group-append" (click)="dp.toggle()">
-        <button class="btn btn-outline-secondary calendar" type="button"><i class="fa fa-calendar"></i></button>
-    </div>
-</div>
