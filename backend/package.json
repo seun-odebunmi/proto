@@ -1,14 +1,17 @@
 {
-  "name": "portal_backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "source": "src/index.js",
   "main": "public/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --detectOpenHandles",
     "server": "node public",
-    "build": "cross-env NODE_ENV=production webpack"
+    "build": "cross-env NODE_ENV=production webpack",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "keywords": [],
   "author": "",
@@ -16,19 +19,24 @@
   "dependencies": {
     "apollo-server": "^2.5.0",
     "apollo-server-express": "^2.5.0",
+    "body-parser": "^1.19.0",
     "continuation-local-storage": "^3.2.1",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
+    "express-validator": "^6.3.1",
     "graphql": "^14.3.0",
     "graphql-resolvers": "^0.3.3",
     "helmet": "^3.12.0",
+    "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "nodemailer": "^6.2.1",
     "regenerator-runtime": "^0.13.1",
-    "sequelize": "^5.15.1"
+    "sequelize": "^5.21.3",
+    "sequelize-cli": "^5.5.1",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -47,5 +55,11 @@
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",
     "webpack-node-externals": "^1.7.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
