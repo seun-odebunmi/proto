@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
 
 import user from './users';
-import contacts from './contacts';
-import activeUserId from './activeUserId';
-import messages from './messages';
+import chatStatus from './chatStatus';
 import typing from './typing';
+import messages from './messages';
+import botTypingStatus from './botTypingStatus';
+import typeaheadOptions from './typeaheadOptions';
 
 export default combineReducers({
-  activeUserId,
+  chatStatus,
   user,
-  contacts,
+  typing,
   messages,
-  typing
+  botTypingStatus,
+  typeaheadOptions
 });

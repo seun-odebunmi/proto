@@ -1,8 +1,20 @@
-import { SET_ACTIVE_USER_ID, SET_TYPING_VALUE, SEND_MESSAGE } from '../constants/action-types';
+import {
+  SET_CHAT_STATUS,
+  SET_BOT_TYPING_STATUS,
+  SET_TYPING_VALUE,
+  BOT_REPLY,
+  SEND_MESSAGE,
+  SET_TYPEAHEAD_OPTIONS
+} from '../constants/action-types';
 
-export const setActiveUserId = id => ({
-  type: SET_ACTIVE_USER_ID,
-  payload: id
+export const setChatStatus = value => ({
+  type: SET_CHAT_STATUS,
+  payload: value
+});
+
+export const setBotTypingStatus = value => ({
+  type: SET_BOT_TYPING_STATUS,
+  payload: value
 });
 
 export const setTypingValue = value => ({
@@ -10,10 +22,17 @@ export const setTypingValue = value => ({
   payload: value
 });
 
-export const sendMessage = (message, userId) => ({
+export const setTypeaheadOptions = value => ({
+  type: SET_TYPEAHEAD_OPTIONS,
+  payload: value
+});
+
+export const botReply = message => ({
+  type: BOT_REPLY,
+  payload: { text: message, is_user_msg: false }
+});
+
+export const sendMessage = message => ({
   type: SEND_MESSAGE,
-  payload: {
-    message,
-    userId
-  }
+  payload: { text: message, is_user_msg: true }
 });

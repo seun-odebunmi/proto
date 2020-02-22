@@ -6,8 +6,6 @@ import store from './store';
 import App from './containers/App';
 import './index.css';
 
-console.log('%c Rendered with 👉 👉👇', 'background: purple; color: #FFF', store.getState());
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

@@ -2,65 +2,40 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import RiveScript from 'rivescript';
 
-import { setActiveUserId, setTypingValue, sendMessage } from '../actions';
+import { initBotApi, replyBotApi } from '../constants/apis';
+import {
+  setChatStatus,
+  setTypingValue,
+  botReply,
+  sendMessage,
+  setBotTypingStatus,
+  setTypeaheadOptions
+} from '../actions';
 
-import Sidebar from '../components/Layout/Sidebar';
+// import Sidebar from '../components/Layout/Sidebar';
 import Main from '../components/Layout/Main';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleUserClick = this.handleUserClick.bind(this);
+    this.handleChatStart = this.handleChatStart.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.chatsRef = React.createRef();
   }
 
-  componentDidUpdate() {
-    let bot = new RiveScript();
-
-    const message_container = document.querySelector('.Chats');
-    const form = document.querySelector('.Message');
-    const input_box = document.querySelector('.Message__input');
-    input_box.focus();
-
-    const brains = [
-      'https://gist.githubusercontent.com/awesammcoder/91e0f6c527bfdc03b8815289ca4af150/raw/6410ce00b7e1ea0dbd28be03b6eaab64252a841d/brain.rive'
-    ];
-
-    bot
-      .loadFile(brains)
-      .then(botReady)
-      .catch(botNotReady);
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      selfReply(input_box.value);
-      input_box.value = '';
+  componentDidMount() {
+    const { user } = this.props;
+    initBotApi(user.name).then(res => {
+      this.props.botReply(res.data.msg);
     });
+  }
 
-    const botReply = message => {
-      message_container.innerHTML += `<div class="Chat">${message}</div>`;
-      this.scrollToBottom();
-    };
-
-    const selfReply = message => {
-      message_container.innerHTML += `<div class="Chat is-user-msg">${message}</div>`;
-      this.scrollToBottom();
-
-      bot.reply('local-user', message).then(function(reply) {
-        botReply(reply);
-      });
-    };
-
-    function botReady() {
-      bot.sortReplies();
-      botReply('Hello');
-    }
-
-    function botNotReady(err) {
-      console.log('An error has occurred.', err);
+  componentDidUpdate() {
+    const input_box = document.querySelector('.Message__input');
+    if (input_box != null) {
+      input_box.focus();
     }
   }
 
@@ -68,22 +43,49 @@ class App extends Component {
     this.chatsRef.current.scrollTop = this.chatsRef.current.scrollHeight;
   }
 
-  handleUserClick(user_id) {
-    this.props.setActiveUserId(user_id);
+  handleOnChange(value) {
+    this.props.setTypingValue(value);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const {
+      sendMessage,
+      typing,
+      botReply,
+      setBotTypingStatus,
+      user,
+      setTypeaheadOptions
+    } = this.props;
+    const value =
+      typeof typing !== 'string' ? `${typing[0].key} value is ${typing[0].value}` : typing;
+
+    sendMessage(value);
+    this.scrollToBottom();
+    setBotTypingStatus(true);
+
+    replyBotApi(value, user.name).then(res => {
+      setBotTypingStatus(false);
+      botReply(res.data.msg);
+      setTypeaheadOptions(res.data.taOptions);
+      this.scrollToBottom();
+    });
+  }
+
+  handleChatStart() {
+    this.props.setChatStatus(true);
   }
 
   render() {
-    const { contacts, user, activeUserId } = this.props;
-    const activeUser = contacts[activeUserId];
-
     return (
       <div className="App">
-        <Sidebar contacts={_.values(contacts)} handleUserClick={this.handleUserClick} />
+        {/* <Sidebar /> */}
         <Main
-          activeUserId={activeUserId}
-          user={user}
-          activeUser={activeUser}
+          {...this.props}
           chatsRef={this.chatsRef}
+          handleChatStart={this.handleChatStart}
+          handleOnChange={this.handleOnChange}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     );
@@ -92,24 +94,38 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    contacts: state.contacts,
     user: state.user,
     typing: state.typing,
-    activeUserId: state.activeUserId
+    chatStatus: state.chatStatus,
+    messages: state.messages,
+    botTypingStatus: state.botTypingStatus,
+    typeaheadLoading: state.typeaheadLoading,
+    typeaheadOptions: state.typeaheadOptions
   };
 };
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setActiveUserId, setTypingValue, sendMessage }, dispatch);
+  bindActionCreators(
+    {
+      setChatStatus,
+      setTypingValue,
+      botReply,
+      sendMessage,
+      setBotTypingStatus,
+      setTypeaheadOptions
+    },
+    dispatch
+  );
 
 App.propTypes = {
+  typing: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   user: PropTypes.object,
-  contacts: PropTypes.object,
-  typing: PropTypes.string,
-  activeUserId: PropTypes.string,
-  setActiveUserId: PropTypes.func,
+  setChatStatus: PropTypes.func,
   setTypingValue: PropTypes.func,
-  sendMessage: PropTypes.func
+  botReply: PropTypes.func,
+  sendMessage: PropTypes.func,
+  setBotTypingStatus: PropTypes.func,
+  setTypeaheadOptions: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,0 +1,49 @@
+! version = 2.0
+
+! var vaod = ''
+! var vaos = ''
+! var phod = ''
+! var phos = ''
+! var glassesod = ''
+! var glassesos = ''
+
++ i want to talk to a doctor
+- Before that can happen, I need to get some information. Is that okay with you ?
+
++ yes
+* <call>loadVAValues VA_OD</call> == done => Good. What is the visual acuity of your right eye (VA_OD) ?
+- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
+
++ va_od value is *
+* <call>loadVAValues VA_OS</call> == done => <set vaod=<star2>> Great! What is the visual acuity of your left eye (VA_OS) ?
+- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
+
++ va_os value is *
+* <call>loadVAValues PH_OD</call> == done => <set vaos=<star2>> Great! Can i also get the visual acuity of the pinhole right eye (PH_OD) ?
+- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
+
++ ph_od value is *
+* <call>loadVAValues PH_OS</call> == done => <set phod=<star2>> Great! Can i also get the visual acuity of the pinhole left eye (PH_OS) ?
+- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
+
++ ph_os value is *
+* <call>loadVAValues Glasses_OD</call> == done => <set phos=<star2>> Great! Can i also get the visual acuity of your glasses right eye (Glasses_OD) ?
+- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
+
++ glasses_od value is *
+* <call>loadVAValues Glasses_OS</call> == done => <set glassesod=<star2>> Great! Can i also get the visual acuity of your glasses left eye (Glasses_OS) ?
+
++ glasses_os value is *
+- <set glassesos=<star2>> Great! Your VA_OD is <get vaod>, VA_OS is <get vaos>, PH_OD is <get phod>, PH_OS is <get phos>, Glasses_OD is <get glassesod> and Glasses_OS is <get glassesos> <call>resetVAValues</call>
+
++ thank you
+- you are welcome
+- welcome
+- no problem
+- no worries
+
++ *
+- Sorry did not get what you said
+- I am afraid that i can not understand you
+- I did not get it
+- Sorry can you please elaborate that for me

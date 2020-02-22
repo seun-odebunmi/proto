@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Empty = ({ user }) => {
+const Empty = ({ user, handleChatStart }) => {
   const { name, profile_pic } = user;
   const first_name = name.split(' ')[0];
 
@@ -12,14 +12,17 @@ const Empty = ({ user }) => {
       <p className="Empty__status">
         <b>Status:</b> Online
       </p>
-      <button className="Empty__btn">Start a conversation</button>
+      <button className="Empty__btn" onClick={handleChatStart}>
+        Start a conversation
+      </button>
       <p className="Empty__info">Get diagnosed by chatting with the bot!</p>
     </div>
   );
 };
 
 Empty.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  handleChatStart: PropTypes.func
 };
 
 export default Empty;

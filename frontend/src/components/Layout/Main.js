@@ -4,17 +4,22 @@ import PropTypes from 'prop-types';
 import Empty from '../Empty';
 import ChatWindow from '../ChatWindow';
 
-const Main = ({ user, activeUserId, ...rest }) => {
+const Main = ({ user, chatStatus, handleChatStart, ...rest }) => {
   return (
     <main className="Main">
-      {!activeUserId ? <Empty user={user} activeUserId={activeUserId} /> : <ChatWindow {...rest} />}
+      {!chatStatus ? (
+        <Empty user={user} handleChatStart={handleChatStart} />
+      ) : (
+        <ChatWindow user={user} {...rest} />
+      )}
     </main>
   );
 };
 
 Main.propTypes = {
   user: PropTypes.object,
-  activeUserId: PropTypes.string
+  chatStatus: PropTypes.bool,
+  handleChatStart: PropTypes.func
 };
 
 export default Main;

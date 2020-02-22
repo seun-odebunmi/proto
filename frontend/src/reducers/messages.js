@@ -1,26 +1,12 @@
-import _ from 'lodash';
+import { BOT_REPLY, SEND_MESSAGE } from '../constants/action-types';
 
-import { getMessages } from '../static-data';
-import { SEND_MESSAGE } from '../constants/action-types';
-
-export default (state = getMessages(10), action) => {
+export default (state = [], action) => {
   switch (action.type) {
+    case BOT_REPLY: {
+      return [...state, action.payload];
+    }
     case SEND_MESSAGE: {
-      const { message, userId } = action.payload;
-      const allUserMsgs = state[userId];
-      const number = +_.keys(allUserMsgs).pop() + 1;
-
-      return {
-        ...state,
-        [userId]: {
-          ...allUserMsgs,
-          [number]: {
-            number,
-            text: message,
-            is_user_msg: true
-          }
-        }
-      };
+      return [...state, action.payload];
     }
     default:
       return state;

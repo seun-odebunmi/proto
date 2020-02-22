@@ -10,7 +10,7 @@ if (config.url) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-const modules = [require('./url.js')];
+const modules = [require('./medicalRecords.js'), require('./visualAcuity.js')];
 
 // Initialize models
 modules.forEach(modul => {
