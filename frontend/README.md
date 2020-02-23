@@ -1,4 +1,5 @@
-# skypey
-A Redux tutorial from 'Understanding Redux: The World’s Easiest Guide to Beginning Redux' by Ohans Emmanuel
+# chatbot
+Created with React + Redux
+Collects user information and responds with best possible answers
 
 Bootstrapped with create-react-app
