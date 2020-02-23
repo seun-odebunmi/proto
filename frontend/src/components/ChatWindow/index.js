@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Messages from './messages';
 import Input from './input';
 
-const ChatWindow = ({ user, messages, botTypingStatus, chatsRef, ...rest }) => {
+const ChatWindow = ({ user, ...rest }) => {
   const { name, profile_pic } = user;
 
   return (
@@ -12,31 +13,14 @@ const ChatWindow = ({ user, messages, botTypingStatus, chatsRef, ...rest }) => {
         <img src={profile_pic} alt={name} className="br-pill h-100" />
         <h2 className="Header__name flex-auto ml3">{name}</h2>
       </header>
-      <div className="Chats" ref={chatsRef}>
-        {messages.map(({ text, is_user_msg }, index) => (
-          <div className={`Chat ${is_user_msg ? 'is-user-msg' : ''}`} key={index}>
-            <p>{is_user_msg ? 'Me' : 'Bot'}</p>
-            {text}
-          </div>
-        ))}
-        {botTypingStatus && (
-          <div className="Chat">
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-          </div>
-        )}
-      </div>
+      <Messages {...rest} />
       <Input {...rest} />
     </div>
   );
 };
 
 ChatWindow.propTypes = {
-  user: PropTypes.object,
-  messages: PropTypes.array,
-  botTypingStatus: PropTypes.bool,
-  chatsRef: PropTypes.object
+  user: PropTypes.object
 };
 
 export default ChatWindow;

@@ -9,9 +9,8 @@
     "react-bootstrap-typeahead": "^3.4.7",
     "react-dom": "^16.4.2",
     "react-redux": "^7.1.3",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^3.4.0",
     "redux": "^4.0.0",
-    "rivescript": "^2.0.0",
     "shortid": "^2.2.12",
     "tachyons": "^4.11.1",
     "txtgen": "^2.2.2"
@@ -22,5 +21,20 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-plugin-flowtype": "^3.13.0",
+    "typescript": "^3.8.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
