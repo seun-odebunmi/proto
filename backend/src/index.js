@@ -9,6 +9,10 @@ import { subRoutines } from './brain/subRoutines';
 import { routerAll } from './routes';
 import { SERVER_CONFIG, ENDPOINT } from './config/config';
 
+const ml = require('./tensor');
+
+// ml.run();
+
 const bot = new RiveScript({ utf8: true });
 const brains = ['src/brain/brain.rive'];
 
@@ -21,6 +25,10 @@ bot
     app.use(express.json());
     app.use(cors(), helmet());
     app.use('/', router);
+    app.use((err, req, res, next) => {
+      console.error(err.stack);
+      res.status(500).send(err.message);
+    });
     subRoutines(models, bot);
     routerAll(router, models, bot);
 
@@ -31,7 +39,7 @@ bot
           console.log(`🚀  Server ready at ${ENDPOINT}  `);
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Unable to connect to the database:', err);
       });
   })

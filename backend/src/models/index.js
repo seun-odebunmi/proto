@@ -10,15 +10,20 @@ if (config.url) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-const modules = [require('./medicalRecords.js'), require('./visualAcuity.js')];
+const modules = [
+  require('./medicalRecords.js'),
+  require('./visualAcuity.js'),
+  require('./diagnosis.js'),
+  require('./user.js'),
+];
 
 // Initialize models
-modules.forEach(modul => {
+modules.forEach((modul) => {
   const model = modul.default(sequelize, Sequelize, config);
   models[model.name] = model;
 });
 
-Object.keys(models).forEach(modelName => {
+Object.keys(models).forEach((modelName) => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }

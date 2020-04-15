@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { initBotApi, replyBotApi } from '../constants/apis';
+import { initBotApi, replyBotApi } from '../../api';
 import {
   setChatStatus,
   setTypingValue,
   botReply,
   sendMessage,
   setBotTypingStatus,
-  setTypeaheadOptions
-} from '../actions';
+  setTypeaheadOptions,
+} from '../../actions';
 
-// import Sidebar from '../components/Layout/Sidebar';
-import Main from '../components/Layout/Main';
+import Layout from '../../components/Shared/Layout';
+import ChatComponent from '../../components/Chat';
 
-class App extends Component {
+class Chat extends Component {
   constructor(props) {
     super(props);
     this.handleChatStart = this.handleChatStart.bind(this);
@@ -26,10 +26,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
-    initBotApi(user.name).then(res => {
-      this.props.botReply(res.data.msg);
-    });
+    const { user, messages } = this.props;
+    if (messages.length === 0) {
+      initBotApi(user.name).then((res) => {
+        if (res) {
+          this.props.botReply(res.msg);
+        }
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -55,20 +59,21 @@ class App extends Component {
       botReply,
       setBotTypingStatus,
       user,
-      setTypeaheadOptions
+      setTypeaheadOptions,
     } = this.props;
-    const value =
-      typeof typing !== 'string' ? `${typing[0].key} value is ${typing[0].value}` : typing;
+    const value = typeof typing !== 'string' ? `${typing[0].value}, ${typing[0].key}` : typing;
 
     sendMessage(value);
     this.scrollToBottom();
     setBotTypingStatus(true);
 
-    replyBotApi(value, user.name).then(res => {
-      setBotTypingStatus(false);
-      botReply(res.data.msg);
-      setTypeaheadOptions(res.data.taOptions);
-      this.scrollToBottom();
+    replyBotApi(value, user.name).then((res) => {
+      if (res) {
+        setBotTypingStatus(false);
+        botReply(res.msg, res.file);
+        setTypeaheadOptions(res.taOptions || null);
+        this.scrollToBottom();
+      }
     });
   }
 
@@ -77,34 +82,31 @@ class App extends Component {
   }
 
   render() {
+    const { history } = this.props;
+
     return (
-      <div className="App">
-        {/* <Sidebar /> */}
-        <Main
-          {...this.props}
-          chatsRef={this.chatsRef}
-          handleChatStart={this.handleChatStart}
-          handleOnChange={this.handleOnChange}
-          handleSubmit={this.handleSubmit}
-        />
-      </div>
+      <Layout history={history}>
+        <div className="Chat-container">
+          <ChatComponent
+            {...this.props}
+            chatsRef={this.chatsRef}
+            handleChatStart={this.handleChatStart}
+            handleOnChange={this.handleOnChange}
+            handleSubmit={this.handleSubmit}
+          />
+        </div>
+      </Layout>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    typing: state.typing,
-    chatStatus: state.chatStatus,
-    messages: state.messages,
-    botTypingStatus: state.botTypingStatus,
-    typeaheadLoading: state.typeaheadLoading,
-    typeaheadOptions: state.typeaheadOptions
+    ...state,
   };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       setChatStatus,
@@ -112,12 +114,12 @@ const mapDispatchToProps = dispatch =>
       botReply,
       sendMessage,
       setBotTypingStatus,
-      setTypeaheadOptions
+      setTypeaheadOptions,
     },
     dispatch
   );
 
-App.propTypes = {
+Chat.propTypes = {
   typing: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   user: PropTypes.object,
   setChatStatus: PropTypes.func,
@@ -125,7 +127,7 @@ App.propTypes = {
   botReply: PropTypes.func,
   sendMessage: PropTypes.func,
   setBotTypingStatus: PropTypes.func,
-  setTypeaheadOptions: PropTypes.func
+  setTypeaheadOptions: PropTypes.func,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

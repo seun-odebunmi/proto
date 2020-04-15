@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Empty = ({ user, handleChatStart }) => {
   const { name, profile_pic } = user;
-  const first_name = name.split(' ')[0];
+  const first_name = name ? name.split(' ')[0] : '';
 
   return (
     <div className="Empty">
@@ -22,7 +22,7 @@ const Empty = ({ user, handleChatStart }) => {
 
 Empty.propTypes = {
   user: PropTypes.object,
-  handleChatStart: PropTypes.func
+  handleChatStart: PropTypes.func,
 };
 
 export default Empty;

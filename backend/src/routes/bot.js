@@ -1,15 +1,15 @@
-const { check, validationResult } = require('express-validator');
-import { ENDPOINT } from '../config/config';
+import auth from '../middleware/auth';
+const { validationResult } = require('express-validator');
 
 const botRoute = (router, models, bot) => {
-  router.get('/botInit/', (request, response, next) => {
-    const { headers } = request;
+  router.get('/botInit/', auth, (request, response, next) => {
+    const { user } = request;
 
-    response.json({ data: { msg: `Hello ${headers.user}, how can I be of service today ?` } });
+    response.json({ msg: `Hello ${user.name}, how can I be of service today ?` });
   });
 
-  router.post('/botReply/', (request, response, next) => {
-    const { headers, body } = request;
+  router.post('/botReply/', auth, (request, response, next) => {
+    const { user, body } = request;
     const errors = validationResult(request);
 
     if (!errors.isEmpty()) {
@@ -17,53 +17,18 @@ const botRoute = (router, models, bot) => {
     }
 
     bot
-      .reply(headers.user, body.msg, false)
-      .then(async reply => {
-        const vaValues = await bot.getUservar(headers.user, 'vaValues');
-        // bot.getUservars(headers.user).then(data => console.log('userVars', data));
+      .reply(user.username, body.msg, false)
+      .then(async (reply) => {
+        let file = await bot.getUservar(user.username, 'file');
+        let taOptions = await bot.getUservar(user.username, 'taOptions');
+        taOptions = taOptions == 'undefined' ? [] : taOptions;
+        file = file == 'undefined' ? '' : file;
+        // bot.getUservars(user.username).then(data => console.log('userVars', data));
 
-        response.json({
-          data: { msg: reply, taOptions: vaValues === 'undefined' ? [] : vaValues }
-        });
+        response.json({ msg: reply, taOptions, file });
       })
-      .catch(err =>
-        res.json({
-          status: 'error',
-          error: err
-        })
-      );
+      .catch((err) => next(err));
   });
-
-  // router.get('/urls/', (request, response, next) => {
-  //   models.Url.getUrls()
-  //     .then(result => {
-  //       if (result !== null) {
-  //         response.json({
-  //           data: result.map(res => ({
-  //             longUrl: res.longUrl,
-  //             shortUrl: `${ENDPOINT}/url/${res.code}`
-  //           }))
-  //         });
-  //       } else {
-  //         response.json({
-  //           data: { urls: 'Not Found!' }
-  //         });
-  //       }
-  //     })
-  //     .catch(next);
-  // });
-  // router.get('/url/:code', (request, response, next) => {
-  //   const { code } = request.params;
-  //   models.Url.getLongUrl(code)
-  //     .then(result => {
-  //       if (result !== null) {
-  //         response.redirect(result.longUrl);
-  //       } else {
-  //         response.redirect(ENDPOINT);
-  //       }
-  //     })
-  //     .catch(next);
-  // });
 };
 
 export default botRoute;

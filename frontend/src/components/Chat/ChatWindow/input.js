@@ -5,19 +5,12 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions }) => {
   return (
     <form className="Message flex flex-column items-center" onSubmit={handleSubmit}>
-      {typeaheadOptions.length === 0 ? (
-        <input
-          className="Message__input"
-          placeholder="Write a message"
-          onChange={e => handleOnChange(e.target.value)}
-          value={typing}
-        />
-      ) : (
+      {typeaheadOptions && typeaheadOptions.length > 0 ? (
         <Fragment>
           <Typeahead
             labelKey="value"
             id="messageSelect"
-            options={typeaheadOptions}
+            options={typeaheadOptions || []}
             onChange={handleOnChange}
             dropup={true}
             placeholder="Select an option"
@@ -28,6 +21,13 @@ const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions }) => {
             tabIndex="-1"
           ></button>
         </Fragment>
+      ) : (
+        <input
+          className="Message__input"
+          placeholder="Write a message"
+          onChange={(e) => handleOnChange(e.target.value)}
+          value={typing}
+        />
       )}
     </form>
   );
@@ -37,7 +37,7 @@ Input.propTypes = {
   typing: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   typeaheadOptions: PropTypes.array,
   handleOnChange: PropTypes.func,
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
 };
 
 export default Input;

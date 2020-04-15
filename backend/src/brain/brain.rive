@@ -7,34 +7,52 @@
 ! var glassesod = ''
 ! var glassesos = ''
 
-+ i want to talk to a doctor
-- Before that can happen, I need to get some information. Is that okay with you ?
++ i want to (talk|speak) to a (doctor|gp|general practitioner)
+* <call>loadQAResponse continue</call> == done => Before that can happen, I need to get some information. Is that okay with you ?
+- Hmmmm. Something went wrong there.
 
-+ yes
++ yes continue
+* <call>loadVAValues Glasses_OD</call> == done => <call>loadVAScale</call> Good. What is the visual acuity of your glasses right eye (Glasses_OD) ?\s
+^ (use the scale above as a guide)
+- Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
+
++ * glasses_od
+* <call>loadVAValues Glasses_OS</call> == done => <set glassesod=<star1>> <call>resetVAScale</call> Great! Can i also get the visual acuity of your glasses left eye (Glasses_OS) ?
+- Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
+
++ * glasses_os
+* <call>loadQAResponse show va_values</call> == done => <set glassesos=<star1>> Do you happen to have visual acuity values for your eyes ? (e.g. VA_OD, VA_OS)
+- Hmmmm. Something went wrong there.
+
++ yes show va_values
 * <call>loadVAValues VA_OD</call> == done => Good. What is the visual acuity of your right eye (VA_OD) ?
-- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
+- Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
 
-+ va_od value is *
-* <call>loadVAValues VA_OS</call> == done => <set vaod=<star2>> Great! What is the visual acuity of your left eye (VA_OS) ?
-- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
++ * va_od
+* <call>loadVAValues VA_OS</call> == done => <set vaod=<star1>> Great! Can i also get the visual acuity of your left eye (VA_OS) ?
+- Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
 
-+ va_os value is *
-* <call>loadVAValues PH_OD</call> == done => <set vaos=<star2>> Great! Can i also get the visual acuity of the pinhole right eye (PH_OD) ?
-- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
++ * va_os
+* <call>loadQAResponse show ph_values</call> == done => <set vaos=<star1>> Do you also happen to have Pinhole visual acuity values ? (e.g. PH_OD, PH_OS)
+- Hmmmm. Something went wrong there.
 
-+ ph_od value is *
-* <call>loadVAValues PH_OS</call> == done => <set phod=<star2>> Great! Can i also get the visual acuity of the pinhole left eye (PH_OS) ?
-- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
++ no do not show va_values
+* <call>loadQAResponse show ph_values</call> == done => <set vaod=''><set vaos=''> Okay. Do you also happen to have Pinhole visual acuity values ? (e.g. PH_OD, PH_OS)
+- Hmmmm. Something went wrong there.
 
-+ ph_os value is *
-* <call>loadVAValues Glasses_OD</call> == done => <set phos=<star2>> Great! Can i also get the visual acuity of your glasses right eye (Glasses_OD) ?
-- Sorry, I couldn't load the possible VA values. <call>resetVAValues</call>
++ yes show ph_values
+* <call>loadVAValues PH_OD</call> == done => Good. What is the visual acuity of the pinhole right eye (PH_OD) ?
+- Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
 
-+ glasses_od value is *
-* <call>loadVAValues Glasses_OS</call> == done => <set glassesod=<star2>> Great! Can i also get the visual acuity of your glasses left eye (Glasses_OS) ?
++ * ph_od
+* <call>loadVAValues PH_OS</call> == done => <set phod=<star1>> Great! Can i also get the visual acuity of the pinhole left eye (PH_OS) ?
+- Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
 
-+ glasses_os value is *
-- <set glassesos=<star2>> Great! Your VA_OD is <get vaod>, VA_OS is <get vaos>, PH_OD is <get phod>, PH_OS is <get phos>, Glasses_OD is <get glassesod> and Glasses_OS is <get glassesos> <call>resetVAValues</call>
++ * ph_os
+- <set phos=<star1>> Great! Your Glasses_OD is <get glassesod>, Glasses_OS is <get glassesos>, VA_OD is <get vaod>, VA_OS is <get vaos>, PH_OD is <get phod> and PH_OS is <get phos> <call>resetVAValues</call>
+
++ no do not show ph_values
+- <set phod=''><set phos=''> Great! Your Glasses_OD is <get glassesod>, Glasses_OS is <get glassesos>, VA_OD is <get vaod>, VA_OS is <get vaos>, PH_OD is <get phod> and PH_OS is <get phos> <call>resetVAValues</call>
 
 + thank you
 - you are welcome
