@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 const botRoute = (router, models, bot) => {
   router.get('/botInit/', auth, (request, response, next) => {
     const { user } = request;
+    bot.setUservar(user.username, 'user', user);
 
     response.json({ msg: `Hello ${user.name}, how can I be of service today ?` });
   });
@@ -23,7 +24,7 @@ const botRoute = (router, models, bot) => {
         let taOptions = await bot.getUservar(user.username, 'taOptions');
         taOptions = taOptions == 'undefined' ? [] : taOptions;
         file = file == 'undefined' ? '' : file;
-        // bot.getUservars(user.username).then(data => console.log('userVars', data));
+        // bot.getUservars(user.username).then((data) => console.log('userVars', data));
 
         response.json({ msg: reply, taOptions, file });
       })

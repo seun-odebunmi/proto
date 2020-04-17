@@ -9,10 +9,6 @@ import { subRoutines } from './brain/subRoutines';
 import { routerAll } from './routes';
 import { SERVER_CONFIG, ENDPOINT } from './config/config';
 
-const ml = require('./tensor');
-
-// ml.run();
-
 const bot = new RiveScript({ utf8: true });
 const brains = ['src/brain/brain.rive'];
 
