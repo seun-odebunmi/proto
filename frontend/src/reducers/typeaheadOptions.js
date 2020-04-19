@@ -1,4 +1,4 @@
-import { SET_TYPEAHEAD_OPTIONS, SEND_MESSAGE } from '../constants/action-types';
+import { SET_TYPEAHEAD_OPTIONS, SEND_MESSAGE } from '../actions/types';
 
 export default (state = [], action) => {
   switch (action.type) {

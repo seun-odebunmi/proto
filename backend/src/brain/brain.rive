@@ -7,7 +7,7 @@
 ! var glassesod = ''
 ! var glassesos = ''
 
-+ i want to (talk|speak) to a (doctor|gp|general practitioner)
++ (yes|sure|ok|okay)
 * <call>loadQAResponse continue</call> == done => Before that can happen, I need to get some information. Is that okay with you ?
 - Hmmmm. Something went wrong there.
 
@@ -49,12 +49,12 @@
 - Sorry, I couldn't load the possible visual acuity values. <call>resetVAValues</call>
 
 + * ph_os
-- <set phos=<star1>> You possibly have <call>resetVAValues</call> <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
-^ Hold on while your diagnosis is forwarded to an Ophthalmologist
+- <set phos=<star1>> You possibly have <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
+^ Hold on while your diagnosis is forwarded to an Ophthalmologist <call>resetVAValues</call>
 
 + no do not show ph_values
-- <set phod=''><set phos=''> You possibly have <call>resetVAValues</call> <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
-^ Hold on while your diagnosis is forwarded to an Ophthalmologist
+- <set phod=''><set phos=''> You possibly have <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
+^ Hold on while your diagnosis is forwarded to an Ophthalmologist <call>resetVAValues</call>
 
 + thank you
 - you are welcome

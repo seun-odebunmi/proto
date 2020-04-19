@@ -1,4 +1,4 @@
-import { SET_CHAT_STATUS } from '../constants/action-types';
+import { SET_CHAT_STATUS } from '../actions/types';
 
 export default function chatStatus(state = false, action) {
   switch (action.type) {

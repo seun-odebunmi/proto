@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "faker": "^4.1.0",
+    "feather-icons-react": "^0.4.1",
     "formik": "^2.1.4",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
@@ -14,9 +15,8 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.0",
+    "react-table": "^7.0.4",
     "redux": "^4.0.0",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2",
     "shortid": "^2.2.12",
     "tachyons": "^4.11.1",
     "txtgen": "^2.2.2",

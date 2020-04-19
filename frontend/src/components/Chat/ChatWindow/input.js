@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
-const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions }) => {
+const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions, botTypingStatus }) => {
   return (
     <form className="Message flex flex-column items-center" onSubmit={handleSubmit}>
       {typeaheadOptions && typeaheadOptions.length > 0 ? (
@@ -12,6 +12,7 @@ const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions }) => {
             id="messageSelect"
             options={typeaheadOptions || []}
             onChange={handleOnChange}
+            disabled={botTypingStatus}
             dropup={true}
             placeholder="Select an option"
           />
@@ -25,6 +26,7 @@ const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions }) => {
         <input
           className="Message__input"
           placeholder="Write a message"
+          disabled={botTypingStatus}
           onChange={(e) => handleOnChange(e.target.value)}
           value={typing}
         />
@@ -36,6 +38,7 @@ const Input = ({ handleOnChange, handleSubmit, typing, typeaheadOptions }) => {
 Input.propTypes = {
   typing: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   typeaheadOptions: PropTypes.array,
+  botTypingStatus: PropTypes.bool,
   handleOnChange: PropTypes.func,
   handleSubmit: PropTypes.func,
 };

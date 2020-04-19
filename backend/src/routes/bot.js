@@ -6,7 +6,7 @@ const botRoute = (router, models, bot) => {
     const { user } = request;
     bot.setUservar(user.username, 'user', user);
 
-    response.json({ msg: `Hello ${user.name}, how can I be of service today ?` });
+    response.json({ msg: `Hello ${user.name}, would you like to begin your session ?` });
   });
 
   router.post('/botReply/', auth, (request, response, next) => {

@@ -38,7 +38,11 @@ const user = (sequelize, DataTypes) => {
 
   User.login = async ({ username, password }) => {
     try {
-      let userData = await User.fetchUserByUsername(username).then((d) => d.dataValues);
+      let userData = await User.fetchUserByUsername(username)
+        .then((d) => d.dataValues)
+        .catch((err) => {
+          throw new Error('Invalid Login credentials!');
+        });
 
       if (userData != null) {
         const { salt, secret, ...rest } = userData;
@@ -57,8 +61,6 @@ const user = (sequelize, DataTypes) => {
 
         throw new Error('Invalid Login credentials!');
       }
-
-      throw new Error('Invalid Login credentials!');
     } catch (err) {
       throw new Error(err);
     }

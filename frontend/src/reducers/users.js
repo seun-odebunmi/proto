@@ -1,4 +1,4 @@
-import { LOGIN_USER } from '../constants/action-types';
+import { LOGIN_USER } from '../actions/types';
 import { generateUser } from '../static-data';
 
 const { profile_pic } = generateUser();

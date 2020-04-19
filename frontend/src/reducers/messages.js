@@ -1,4 +1,4 @@
-import { BOT_REPLY, SEND_MESSAGE } from '../constants/action-types';
+import { BOT_REPLY, SEND_MESSAGE } from '../actions/types';
 
 export default (state = [], action) => {
   switch (action.type) {

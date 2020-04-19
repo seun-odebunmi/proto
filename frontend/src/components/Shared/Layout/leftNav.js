@@ -1,44 +1,42 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Sidebar, Menu, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import FeatherIcon from 'feather-icons-react';
 
-const LeftNav = ({ visible, children, history, menu, linkAction }) => (
-  <Sidebar.Pushable as={'div'} style={{ marginTop: '0px' }}>
-    <Sidebar as={Menu} animation="push" visible={visible} vertical>
-      <div className="sidebar-container flex flex-column h-100">
-        <div className="navSection">
-          <div className="flex flex-column justify-start">
-            {menu.map((link, index) => (
-              <Fragment key={index}>
-                <Menu>
-                  <Menu.Item
-                    name={link.name}
-                    className={link.className}
-                    onClick={() => linkAction(link.path)}
-                    active={history.location.pathname === link.path ? true : false}
-                  >
-                    <Icon name={link.icon} />
-                    <span className="hide-menu ttc">{link.name}</span>
-                  </Menu.Item>
-                </Menu>
-              </Fragment>
-            ))}
-          </div>
+const LeftNav = ({ history, menu, user }) => (
+  <div id="layoutSidenav_nav">
+    <nav className="sidenav shadow-right sidenav-dark">
+      <div className="sidenav-menu">
+        <div className="nav accordion" id="accordionSidenav">
+          <div className="sidenav-menu-heading">Menu</div>
+          {menu.map(({ path, name, icon }, index) => (
+            <Link
+              to={path}
+              className={`nav-link${path === history.location.pathname ? ' active' : ''}`}
+              key={index}
+            >
+              <div className="nav-link-icon">
+                <FeatherIcon icon={icon} />
+              </div>
+              {name}
+            </Link>
+          ))}
         </div>
       </div>
-    </Sidebar>
-    <Sidebar.Pusher>
-      <div className="contentPage">{children}</div>
-    </Sidebar.Pusher>
-  </Sidebar.Pushable>
+      <div className="sidenav-footer">
+        <div className="sidenav-footer-content">
+          <div className="sidenav-footer-subtitle">Logged in as:</div>
+          <div className="sidenav-footer-title">{user.name}</div>
+        </div>
+      </div>
+    </nav>
+  </div>
 );
 
 LeftNav.propTypes = {
-  visible: PropTypes.bool.isRequired,
   menu: PropTypes.array.isRequired,
-  children: PropTypes.any.isRequired,
+  user: PropTypes.object.isRequired,
   history: PropTypes.any,
-  linkAction: PropTypes.func.isRequired,
 };
 
 export default LeftNav;

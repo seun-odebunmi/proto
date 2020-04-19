@@ -6,7 +6,8 @@ import {
   SEND_MESSAGE,
   SET_TYPEAHEAD_OPTIONS,
   LOGIN_USER,
-} from '../constants/action-types';
+  DESTROY_SESSION,
+} from './types';
 
 export const setChatStatus = (value) => ({
   type: SET_CHAT_STATUS,
@@ -39,3 +40,5 @@ export const sendMessage = (message) => ({
 });
 
 export const loginUser = (user) => ({ type: LOGIN_USER, payload: user });
+
+export const logOut = () => ({ type: DESTROY_SESSION, payload: null });

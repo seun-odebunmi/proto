@@ -5,3 +5,4 @@ export const SET_TYPEAHEAD_OPTIONS = 'SET_TYPEAHEAD_OPTIONS';
 export const BOT_REPLY = 'BOT_REPLY';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const LOGIN_USER = 'LOGIN_USER';
+export const DESTROY_SESSION = 'DESTROY_SESSION';

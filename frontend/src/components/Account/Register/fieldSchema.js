@@ -31,7 +31,6 @@ export const formFields = [
     required: true,
   },
   {
-    type: 'text',
     name: 'gender',
     label: 'Gender',
     component: FormSelect,
