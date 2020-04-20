@@ -10,8 +10,7 @@ const user = (sequelize, DataTypes) => {
       salt: DataTypes.STRING,
       age: { type: DataTypes.INTEGER, allowNull: false },
       gender: { type: DataTypes.INTEGER, allowNull: false },
-      userType_id: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
-      medicalRecord_id: { type: DataTypes.INTEGER, allowNull: true },
+      userType_id: { type: DataTypes.INTEGER, allowNull: true },
     },
     { tableName: 'user', timestamps: false }
   );

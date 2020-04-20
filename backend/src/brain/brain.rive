@@ -7,7 +7,7 @@
 ! var glassesod = ''
 ! var glassesos = ''
 
-+ (yes|sure|ok|okay)
++ yes begin
 * <call>loadQAResponse continue</call> == done => Before that can happen, I need to get some information. Is that okay with you ?
 - Hmmmm. Something went wrong there.
 
@@ -50,11 +50,11 @@
 
 + * ph_os
 - <set phos=<star1>> You possibly have <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
-^ Hold on while your diagnosis is forwarded to an Ophthalmologist <call>resetVAValues</call>
+^ Your diagnosis has been forwarded to an Ophthalmologist. Your recommendation will show up in your list of diagnosis once it is ready. <call>resetVAValues</call>
 
 + no do not show ph_values
 - <set phod=''><set phos=''> You possibly have <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
-^ Hold on while your diagnosis is forwarded to an Ophthalmologist <call>resetVAValues</call>
+^ Your diagnosis has been forwarded to an Ophthalmologist. Your recommendation will show up in your list of diagnosis once it is ready. <call>resetVAValues</call>
 
 + thank you
 - you are welcome

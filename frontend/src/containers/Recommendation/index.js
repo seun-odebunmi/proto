@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import Layout from '../../components/Shared/Layout';
 import Datatable from '../../components/Shared/Datatable';
 import Button from './Button';
-import Modal from './modalForm';
+import ModalForm from './modalForm';
 import { columns } from './data';
 
-import { getMedicalRecords } from '../../api';
+import { getPatMedicalRecords, createUpdateRecommendation } from '../../api';
 
 class DiagnosisPage extends Component {
   constructor(props) {
@@ -29,24 +29,25 @@ class DiagnosisPage extends Component {
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleBtnClick = this.handleBtnClick.bind(this);
-    this.modifyRowObject = this.modifyRowObject.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.fetchData = this.fetchData.bind(this);
+    this.modifyRowObject = this.modifyRowObject.bind(this);
   }
 
   componentDidMount() {
     const { user } = this.props;
 
-    if (user.userType_id !== 1) {
-      this.props.history.replace('/Recommendation');
+    if (user.userType_id !== 2) {
+      this.props.history.replace('/');
     }
   }
 
   fetchData({ pageSize, pageIndex, sortBy }) {
     const sort = sortBy.reduce((prev, s) => `${prev}${s.id},${s.desc ? 'DESC' : 'ASC'}`, '');
     const param = { page: pageIndex, size: pageSize, sort };
-    // pageCount: totalPages;
+    // pageCount: totalPages
 
-    getMedicalRecords(param).then((response) => {
+    getPatMedicalRecords(param).then((response) => {
       const modRows = response.map(this.modifyRowObject);
       this.setState((prevState) => ({
         ...prevState,
@@ -58,17 +59,9 @@ class DiagnosisPage extends Component {
   modifyRowObject(row) {
     return {
       ...row,
-      action:
-        row.Recommendation !== null ? (
-          <Button
-            onClick={this.handleBtnClick}
-            rowData={row.Recommendation}
-            icon="maximize-2"
-            action="Recommendation"
-          />
-        ) : (
-          'No recommendation yet!'
-        ),
+      action: (
+        <Button onClick={this.handleBtnClick} rowData={row} icon="edit-2" action="Recommendation" />
+      ),
     };
   }
 
@@ -85,6 +78,15 @@ class DiagnosisPage extends Component {
     this.setState((prevState) => ({ ...prevState, modal: !this.state.modal }));
   }
 
+  handleSubmit(values, { setSubmitting }) {
+    const { pageInitialState } = this.state;
+    createUpdateRecommendation(values).then((res) => {
+      this.fetchData(pageInitialState);
+      this.handleToggle();
+    });
+    setSubmitting(false);
+  }
+
   render() {
     const { history } = this.props;
     const { data, pageInitialState, modal, modalAction, modalFormData } = this.state;
@@ -93,7 +95,7 @@ class DiagnosisPage extends Component {
       <>
         <Layout history={history}>
           <div className="card bg-transparent text-white mb-4">
-            <div className="card-header">Past Diagnosis</div>
+            <div className="card-header">Recommendation</div>
             <div className="card-body">
               <Datatable
                 columns={data.columns}
@@ -106,9 +108,10 @@ class DiagnosisPage extends Component {
           </div>
         </Layout>
         {modal && (
-          <Modal
+          <ModalForm
             open={modal}
             toggle={this.handleToggle}
+            onSubmit={this.handleSubmit}
             action={modalAction}
             data={modalFormData}
           />

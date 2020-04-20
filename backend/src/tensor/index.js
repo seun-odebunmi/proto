@@ -49,24 +49,28 @@ const trainModel = async (xTrain, yTrain, xTest, yTest) => {
 };
 
 export const run = async () => {
-  // fetch data and remove unwanted fields
-  const cleaned = await models.MedicalRecords.getAll().then((d) =>
-    d.map(({ id, HistoryofPresentIllness, ...rest }) => ({ ...rest }))
-  );
-  const data2d = await cleaned
-    .map((d) => Object.keys(d).map((key) => d[key]))
-    .filter((d) => d.indexOf(null) < 0);
-
-  // fetch all existing diagnosis (classes)
-  const classes = await models.Diagnosis.getAll().then((res) => res.map((d) => d.value));
-  const numClasses = classes.length;
-  const [xTrain, yTrain, xTest, yTest] = await getData(data2d, numClasses, 0.2);
-
   let model = '';
   try {
     model = await tf.loadLayersModel('file://src/tensor/diagnosisModel/model.json');
   } catch (err) {
+    // fetch data and remove unwanted fields
+    const cleaned = await models.MedicalRecords.getAll().then((d) =>
+      d.map(({ id, HistoryofPresentIllness, user_id, ...rest }) => ({ ...rest }))
+    );
+    const data2d = await cleaned
+      .map((d) => Object.keys(d).map((key) => d[key]))
+      .filter((d) => d.indexOf(null) < 0);
+
+    // fetch all existing diagnosis (classes)
+    const classes = await models.Diagnosis.getAll().then((res) => res.map((d) => d.value));
+    const numClasses = classes.length;
+    const [xTrain, yTrain, xTest, yTest] = await getData(data2d, numClasses, 0.2);
+
     model = await trainModel(xTrain, yTrain, xTest, yTest);
+
+    const input = tf.tensor2d([20, 2, 6, 6, 1, 1, 3, 3], [1, 8]);
+    const prediction = model.predict(input).argMax(-1).dataSync();
+    console.log('pred', prediction);
   }
 
   return { model };

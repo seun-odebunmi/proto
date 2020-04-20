@@ -2,18 +2,11 @@ import React from 'react';
 import { useTable, useSortBy, usePagination } from 'react-table';
 
 import PageSizeControl from './pageSizeControl';
-import Search from './search';
 import Table from './table';
 import PagingInfo from './pagingInfo';
 import Pagination from './pagination';
 
 const Datatable = ({ columns, data, pageInitialState, fetchData, pageCount: ctrldPageCount }) => {
-  const defaultColumn = React.useMemo(
-    () => ({
-      Filter: Search,
-    }),
-    []
-  );
   const {
     getTableProps,
     getTableBodyProps,
@@ -28,12 +21,11 @@ const Datatable = ({ columns, data, pageInitialState, fetchData, pageCount: ctrl
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize, sortBy, filters },
+    state: { pageIndex, pageSize, sortBy },
   } = useTable(
     {
       columns,
       data,
-      defaultColumn,
       initialState: pageInitialState,
       manualSortBy: true,
       manualPagination: true,
@@ -44,8 +36,8 @@ const Datatable = ({ columns, data, pageInitialState, fetchData, pageCount: ctrl
   );
 
   React.useEffect(() => {
-    fetchData({ pageIndex, pageSize, sortBy, filters });
-  }, [fetchData, pageIndex, pageSize, sortBy, filters]);
+    fetchData({ pageIndex, pageSize, sortBy });
+  }, [fetchData, pageIndex, pageSize, sortBy]);
 
   return (
     <div className="datatable table-responsive">

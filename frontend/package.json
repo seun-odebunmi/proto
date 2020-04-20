@@ -7,6 +7,8 @@
     "faker": "^4.1.0",
     "feather-icons-react": "^0.4.1",
     "formik": "^2.1.4",
+    "mdbreact": "^4.25.6",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.4.2",
     "react-bootstrap-typeahead": "^3.4.7",

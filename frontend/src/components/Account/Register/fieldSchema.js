@@ -40,4 +40,14 @@ export const formFields = [
     ],
     required: true,
   },
+  {
+    name: 'userType_id',
+    label: 'Role',
+    component: FormSelect,
+    options: [
+      { id: 1, name: 'Patient' },
+      { id: 2, name: 'Ophthalmologist' },
+    ],
+    required: true,
+  },
 ];

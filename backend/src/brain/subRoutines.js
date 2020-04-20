@@ -56,12 +56,12 @@ export const subRoutines = (models, bot) => {
     const classes = await models.Diagnosis.getAll();
     const va = await models.VisualAcuity.getAll();
     const user = await rs.getUservar(rs.currentUser(), 'user');
+    const { age, gender, id } = user;
     const inputVa = args.map((a) => {
       const value = va.find((v) => v.value === a);
       return value != undefined ? value.id : null;
     });
-    const input = tf.tensor2d([user.age, user.gender, ...inputVa], [1, 8]);
-    // const input = tf.tensor2d([20, 2, 6, 6, 1, 1, 3, 3], [1, 8]);
+    const input = tf.tensor2d([age, gender, ...inputVa], [1, 8]);
 
     return new Promise((resolve, reject) => {
       ml.run()
@@ -71,7 +71,19 @@ export const subRoutines = (models, bot) => {
             .find((c) => c.id === predictionWithArgMax[0])
             .value.split('-')
             .join(' ');
-          resolve(prediction);
+          const record = {
+            Age: age,
+            Gender: gender,
+            VA_OD: inputVa[0],
+            VA_OS: inputVa[1],
+            PH_OD: inputVa[2],
+            PH_OS: inputVa[3],
+            Glasses_OD: inputVa[4],
+            Glasses_OS: inputVa[5],
+            Diagnosis: predictionWithArgMax[0],
+            user_id: id,
+          };
+          models.MedicalRecords.createRecord(record).then(() => resolve(prediction));
         })
         .catch((err) => reject(''));
     });

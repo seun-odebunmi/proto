@@ -9,18 +9,21 @@ const LeftNav = ({ history, menu, user }) => (
       <div className="sidenav-menu">
         <div className="nav accordion" id="accordionSidenav">
           <div className="sidenav-menu-heading">Menu</div>
-          {menu.map(({ path, name, icon }, index) => (
-            <Link
-              to={path}
-              className={`nav-link${path === history.location.pathname ? ' active' : ''}`}
-              key={index}
-            >
-              <div className="nav-link-icon">
-                <FeatherIcon icon={icon} />
-              </div>
-              {name}
-            </Link>
-          ))}
+          {menu.map(
+            ({ path, name, icon, display }, index) =>
+              display.indexOf(user.userType_id) > -1 && (
+                <Link
+                  to={path}
+                  className={`nav-link${path === history.location.pathname ? ' active' : ''}`}
+                  key={index}
+                >
+                  <div className="nav-link-icon">
+                    <FeatherIcon icon={icon} />
+                  </div>
+                  {name}
+                </Link>
+              )
+          )}
         </div>
       </div>
       <div className="sidenav-footer">

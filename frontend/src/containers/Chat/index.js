@@ -26,11 +26,17 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    const { user, messages } = this.props;
+    const { user, messages, botReply, setTypeaheadOptions } = this.props;
+
+    if (user.userType_id !== 1) {
+      this.props.history.replace('/Recommendation');
+    }
+
     if (messages.length === 0) {
       initBotApi(user.name).then((res) => {
         if (res) {
-          this.props.botReply(res.msg);
+          botReply(res.msg);
+          setTypeaheadOptions(res.taOptions || null);
         }
       });
     }
@@ -41,6 +47,10 @@ class Chat extends Component {
     if (input_box != null) {
       input_box.focus();
     }
+  }
+
+  componentWillUnmount() {
+    this.props.setChatStatus(false);
   }
 
   scrollToBottom() {

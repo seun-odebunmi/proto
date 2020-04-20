@@ -7,7 +7,7 @@ const FormInputs = ({ field, form, label, ...rest }) => {
       <label htmlFor={field.name} className={`small mb-1 ${rest.required && 'required'}`}>
         {label}
       </label>
-      {rest.type === 'checkbox' ? (
+      {rest.type === 'checkbox' && (
         <input
           type="checkbox"
           {...field}
@@ -15,9 +15,20 @@ const FormInputs = ({ field, form, label, ...rest }) => {
           id={field.name}
           checked={form.values[field.name]}
         />
-      ) : (
+      )}
+      {rest.type === 'textarea' && (
+        <textarea
+          className="form-control py-2"
+          value={field.value === null ? '' : field.value}
+          {...field}
+          {...rest}
+          id={field.name}
+        />
+      )}
+      {rest.type !== 'checkbox' && rest.type !== 'textarea' && (
         <input
           className="form-control py-2"
+          type={rest.type}
           placeholder={label}
           value={field.value === null ? '' : field.value}
           {...field}

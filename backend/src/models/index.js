@@ -11,9 +11,10 @@ if (config.url) {
 }
 
 const modules = [
-  require('./medicalRecords.js'),
-  require('./visualAcuity.js'),
   require('./diagnosis.js'),
+  require('./visualAcuity.js'),
+  require('./recommendation.js'),
+  require('./medicalRecords.js'),
   require('./user.js'),
 ];
 
