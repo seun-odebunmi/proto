@@ -47,7 +47,7 @@ class DiagnosisPage extends Component {
     // pageCount: totalPages;
 
     getMedicalRecords(param).then((response) => {
-      const modRows = response.map(this.modifyRowObject);
+      const modRows = response ? response.map(this.modifyRowObject) : [];
       this.setState((prevState) => ({
         ...prevState,
         data: { ...prevState.data, rows: modRows },
