@@ -27,18 +27,23 @@ class Chat extends Component {
 
   componentDidMount() {
     const { user, messages, botReply, setTypeaheadOptions } = this.props;
+    const token = localStorage.getItem('token');
 
-    if (user.userType_id !== 1) {
-      this.props.history.replace('/Recommendation');
-    }
+    if (!token) {
+      this.props.history.replace('/login');
+    } else {
+      if (user.userType_id !== 1) {
+        this.props.history.replace('/Recommendation');
+      }
 
-    if (messages.length === 0) {
-      initBotApi(user.name).then((res) => {
-        if (res) {
-          botReply(res.msg);
-          setTypeaheadOptions(res.taOptions || null);
-        }
-      });
+      if (messages.length === 0) {
+        initBotApi(user.name).then((res) => {
+          if (res) {
+            botReply(res.msg);
+            setTypeaheadOptions(res.taOptions || null);
+          }
+        });
+      }
     }
   }
 

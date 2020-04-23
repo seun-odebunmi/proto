@@ -36,9 +36,14 @@ class DiagnosisPage extends Component {
 
   componentDidMount() {
     const { user } = this.props;
+    const token = localStorage.getItem('token');
 
-    if (user.userType_id !== 2) {
-      this.props.history.replace('/');
+    if (!token) {
+      this.props.history.replace('/login');
+    } else {
+      if (user.userType_id !== 2) {
+        this.props.history.replace('/');
+      }
     }
   }
 

@@ -21,13 +21,6 @@ class Layout extends Component {
     this.handleLogOut = this.handleLogOut.bind(this);
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.props.history.replace('/login');
-    }
-  }
-
   handleToggle() {
     this.setState((prevState) => ({ ...prevState, leftNavOpen: !this.state.leftNavOpen }));
   }
