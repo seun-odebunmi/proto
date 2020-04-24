@@ -11,6 +11,12 @@
 * <call>loadQAResponse continue</call> == done => Before that can happen, I need to get some information. Is that okay with you ?
 - Hmmmm. Something went wrong there.
 
++ no do not begin
+- Thanks for your time. Do check back when you are ready to chat again. <call>endSession</call>
+
++ no do not continue
+- Thanks for your time. Do check back when you are ready to chat again. <call>endSession</call>
+
 + yes continue
 * <call>loadVAValues Glasses_OD</call> == done => <call>loadVAScale</call> Good. What is the visual acuity of your glasses right eye (Glasses_OD) ?\s
 ^ (use the scale above as a guide)
@@ -50,11 +56,11 @@
 
 + * ph_os
 - <set phos=<star1>> You possibly have <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
-^ Your diagnosis has been forwarded to an Ophthalmologist. Your recommendation will show up in your list of diagnosis once it is ready. <call>resetVAValues</call>
+^ Your diagnosis has been forwarded to an Ophthalmologist. Your recommendation will show up in your list of diagnosis once it is ready. <call>resetVAValues</call> <call>endSession</call>
 
 + no do not show ph_values
 - <set phod=''><set phos=''> You possibly have <call>makePrediction <get vaod> <get vaos> <get phod> <get phos> <get glassesod> <get glassesos></call>.\s
-^ Your diagnosis has been forwarded to an Ophthalmologist. Your recommendation will show up in your list of diagnosis once it is ready. <call>resetVAValues</call>
+^ Your diagnosis has been forwarded to an Ophthalmologist. Your recommendation will show up in your list of diagnosis once it is ready. <call>resetVAValues</call> <call>endSession</call>
 
 + thank you
 - you are welcome

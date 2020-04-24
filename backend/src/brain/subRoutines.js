@@ -88,4 +88,10 @@ export const subRoutines = (models, bot) => {
         .catch((err) => reject(''));
     });
   });
+
+  bot.setSubroutine('endSession', (rs, args) => {
+    return new Promise((resolve, reject) => {
+      rs.setUservar(rs.currentUser(), 'completed', true).then(() => resolve(''));
+    });
+  });
 };

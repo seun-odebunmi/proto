@@ -1,5 +1,6 @@
 import {
   SET_CHAT_STATUS,
+  SET_DIAGNOSIS_COMPLETE_STATUS,
   SET_BOT_TYPING_STATUS,
   SET_TYPING_VALUE,
   BOT_REPLY,
@@ -11,6 +12,11 @@ import {
 
 export const setChatStatus = (value) => ({
   type: SET_CHAT_STATUS,
+  payload: value,
+});
+
+export const setDiagnosisCompleteStatus = (value) => ({
+  type: SET_DIAGNOSIS_COMPLETE_STATUS,
   payload: value,
 });
 

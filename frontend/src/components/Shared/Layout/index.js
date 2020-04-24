@@ -19,10 +19,15 @@ class Layout extends Component {
     this.handleToggle = this.handleToggle.bind(this);
     this.handleUserToggle = this.handleUserToggle.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.closeUserToggle = this.closeUserToggle.bind(this);
   }
 
   handleToggle() {
     this.setState((prevState) => ({ ...prevState, leftNavOpen: !this.state.leftNavOpen }));
+  }
+
+  closeUserToggle() {
+    this.setState((prevState) => ({ ...prevState, userDropdown: false }));
   }
 
   handleUserToggle() {
@@ -52,7 +57,7 @@ class Layout extends Component {
         />
         <div id="layoutSidenav">
           <LeftNav history={history} menu={verticalMenu} user={user} />
-          <div id="layoutSidenav_content">
+          <div id="layoutSidenav_content" onClick={this.closeUserToggle}>
             <main>{this.props.children}</main>
           </div>
         </div>

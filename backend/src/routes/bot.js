@@ -13,8 +13,13 @@ const botRoute = (router, models, bot) => {
       { value: 'no', key: 'do not begin' },
     ];
     bot.setUservar(`${user.username}${uniqueId}`, 'user', user);
+    bot.setUservar(`${user.username}${uniqueId}`, 'completed', false);
 
-    response.json({ msg: `Hello ${user.name}, would you like to begin your session ?`, taOptions });
+    response.json({
+      msg: `Hello ${user.name}, would you like to begin your session ?`,
+      taOptions,
+      completed: false,
+    });
   });
 
   router.post('/botReply/', authPatient, (request, response, next) => {
@@ -35,11 +40,13 @@ const botRoute = (router, models, bot) => {
       .then(async (reply) => {
         let file = await bot.getUservar(`${user.username}${uniqueId}`, 'file');
         let taOptions = await bot.getUservar(`${user.username}${uniqueId}`, 'taOptions');
+        let completed = await bot.getUservar(`${user.username}${uniqueId}`, 'completed');
         taOptions = taOptions == 'undefined' ? [] : taOptions;
         file = file == 'undefined' ? '' : file;
+        completed = completed == 'undefined' ? false : completed;
         // bot.getUservars(`${user.username}${uniqueId}`).then((data) => console.log('userVars', data));
 
-        response.json({ msg: reply, taOptions, file });
+        response.json({ msg: reply, taOptions, file, completed });
       })
       .catch((err) => next(err));
   });

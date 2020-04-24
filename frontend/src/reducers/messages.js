@@ -1,4 +1,4 @@
-import { BOT_REPLY, SEND_MESSAGE } from '../actions/types';
+import { BOT_REPLY, SEND_MESSAGE, SET_CHAT_STATUS } from '../actions/types';
 
 export default (state = [], action) => {
   switch (action.type) {
@@ -7,6 +7,12 @@ export default (state = [], action) => {
     }
     case SEND_MESSAGE: {
       return [...state, action.payload];
+    }
+    case SET_CHAT_STATUS: {
+      if (action.payload === false) {
+        return [];
+      }
+      return [...state];
     }
     default:
       return state;

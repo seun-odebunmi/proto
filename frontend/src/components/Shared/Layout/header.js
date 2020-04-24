@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const Header = ({ onToggle, logoutAction, user, userDropdown, userDropdownToggle }) => {
   return (
     <nav className="topnav navbar navbar-expand shadow navbar-dark bg-black-40">
-      <Link className="navbar-brand d-none d-sm-block active" to="/admin">
+      <Link className="navbar-brand d-none d-sm-block active" to="/">
         Med-Pro
       </Link>
       <button

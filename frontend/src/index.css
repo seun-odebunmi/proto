@@ -189,14 +189,30 @@ body {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
+.Message form {
+  width: 100%;
+}
+
+.End__btn {
+  padding: 0.7rem;
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  outline: 0;
+}
+
 .rbt {
   width: 80%;
+  margin: auto;
 }
 
 .Message__input,
 .rbt-input {
   width: 80%;
   padding: 1rem;
+  display: block;
+  margin: auto;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border: 0;

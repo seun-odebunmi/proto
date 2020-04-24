@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { initBotApi, replyBotApi } from '../../api';
 import {
   setChatStatus,
+  setDiagnosisCompleteStatus,
   setTypingValue,
   botReply,
   sendMessage,
@@ -22,11 +23,12 @@ class Chat extends Component {
     this.handleChatStart = this.handleChatStart.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChartEnd = this.handleChartEnd.bind(this);
     this.chatsRef = React.createRef();
   }
 
   componentDidMount() {
-    const { user, messages, botReply, setTypeaheadOptions } = this.props;
+    const { user } = this.props;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -35,27 +37,32 @@ class Chat extends Component {
       if (user.userType_id !== 1) {
         this.props.history.replace('/Recommendation');
       }
-
-      if (messages.length === 0) {
-        initBotApi(user.name).then((res) => {
-          if (res) {
-            botReply(res.msg);
-            setTypeaheadOptions(res.taOptions || null);
-          }
-        });
-      }
     }
   }
 
   componentDidUpdate() {
+    const {
+      user,
+      messages,
+      botReply,
+      setTypeaheadOptions,
+      setDiagnosisCompleteStatus,
+    } = this.props;
     const input_box = document.querySelector('.Message__input');
+
+    if (messages.length === 0) {
+      initBotApi(user.name).then((res) => {
+        if (res) {
+          botReply(res.msg);
+          setDiagnosisCompleteStatus(res.completed);
+          setTypeaheadOptions(res.taOptions || null);
+        }
+      });
+    }
+
     if (input_box != null) {
       input_box.focus();
     }
-  }
-
-  componentWillUnmount() {
-    this.props.setChatStatus(false);
   }
 
   scrollToBottom() {
@@ -73,6 +80,7 @@ class Chat extends Component {
       typing,
       botReply,
       setBotTypingStatus,
+      setDiagnosisCompleteStatus,
       user,
       setTypeaheadOptions,
     } = this.props;
@@ -87,6 +95,7 @@ class Chat extends Component {
         setBotTypingStatus(false);
         botReply(res.msg, res.file);
         setTypeaheadOptions(res.taOptions || null);
+        setDiagnosisCompleteStatus(res.completed);
         this.scrollToBottom();
       }
     });
@@ -94,6 +103,10 @@ class Chat extends Component {
 
   handleChatStart() {
     this.props.setChatStatus(true);
+  }
+
+  handleChartEnd() {
+    this.props.setChatStatus(false);
   }
 
   render() {
@@ -106,6 +119,7 @@ class Chat extends Component {
             {...this.props}
             chatsRef={this.chatsRef}
             handleChatStart={this.handleChatStart}
+            handleChartEnd={this.handleChartEnd}
             handleOnChange={this.handleOnChange}
             handleSubmit={this.handleSubmit}
           />
@@ -125,6 +139,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       setChatStatus,
+      setDiagnosisCompleteStatus,
       setTypingValue,
       botReply,
       sendMessage,
@@ -138,6 +153,7 @@ Chat.propTypes = {
   typing: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   user: PropTypes.object,
   setChatStatus: PropTypes.func,
+  setDiagnosisCompleteStatus: PropTypes.func,
   setTypingValue: PropTypes.func,
   botReply: PropTypes.func,
   sendMessage: PropTypes.func,
