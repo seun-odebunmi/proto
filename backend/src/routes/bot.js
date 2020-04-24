@@ -1,8 +1,8 @@
-import auth from '../middleware/auth';
+import { authPatient } from '../middleware/auth';
 const { validationResult } = require('express-validator');
 
 const botRoute = (router, models, bot) => {
-  router.get('/botInit/', auth, (request, response, next) => {
+  router.get('/botInit/', authPatient, (request, response, next) => {
     const {
       user,
       headers: { authorization },
@@ -17,7 +17,7 @@ const botRoute = (router, models, bot) => {
     response.json({ msg: `Hello ${user.name}, would you like to begin your session ?`, taOptions });
   });
 
-  router.post('/botReply/', auth, (request, response, next) => {
+  router.post('/botReply/', authPatient, (request, response, next) => {
     const {
       user,
       body,

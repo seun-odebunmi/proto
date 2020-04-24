@@ -21,7 +21,7 @@ const handleLogOut = (history) => {
 const handleError = (error) => {
   if (error.response) {
     const { status, data } = error.response;
-    if (status === 401 || status === 403) {
+    if (status === 401) {
       handleLogOut(history);
     } else {
       const errMsg =

@@ -6,7 +6,7 @@
   "main": "public/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack --watch",
-    "test": "jest --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand --forceExit",
     "server": "node public",
     "build": "cross-env NODE_ENV=production webpack",
     "migrate": "npx sequelize-cli db:migrate",

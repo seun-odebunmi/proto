@@ -9,6 +9,7 @@ import { subRoutines } from './brain/subRoutines';
 import { routerAll } from './routes';
 import { SERVER_CONFIG, ENDPOINT } from './config/config';
 
+let app = '';
 const bot = new RiveScript({ utf8: true });
 const brains = ['src/brain/brain.rive'];
 
@@ -16,7 +17,7 @@ bot
   .loadFile(brains)
   .then(() => {
     bot.sortReplies();
-    const app = express();
+    app = express();
     const router = express.Router();
     app.use(express.json());
     app.use(cors(), helmet());
@@ -40,3 +41,5 @@ bot
       });
   })
   .catch((loadcount, err) => console.log('Error loading batch #' + loadcount + ': ' + err + '\n'));
+
+export default app;

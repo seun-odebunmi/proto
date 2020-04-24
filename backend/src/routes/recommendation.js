@@ -1,8 +1,8 @@
-import auth from '../middleware/auth';
+import { authGP } from '../middleware/auth';
 const { validationResult } = require('express-validator');
 
 const recommendationRoute = (router, models) => {
-  router.put('/recommendation', auth, (request, response, next) => {
+  router.put('/recommendation', authGP, (request, response, next) => {
     const { user, body } = request;
     const errors = validationResult(request);
 

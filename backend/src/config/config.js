@@ -6,20 +6,23 @@ const { dialect, username, password, host, port, database } = envConfig.default[
 
 const serverConfig = {
   production: {
+    env: 'production',
     ssl: true,
     port: NODE_PORT,
-    hostname: NODE_HOST
+    hostname: NODE_HOST,
   },
   test: {
+    env: 'test',
     ssl: false,
     port: 4000,
-    hostname: 'localhost'
+    hostname: 'localhost',
   },
   development: {
+    env: 'development',
     ssl: false,
     port: 4000,
-    hostname: 'localhost'
-  }
+    hostname: 'localhost',
+  },
 };
 
 export const SERVER_CONFIG = serverConfig[env];
@@ -36,13 +39,13 @@ export const config = {
     dialect: dialect,
     define: {
       freezeTableName: false,
-      timestamps: false
-    }
+      timestamps: false,
+    },
   },
   // pool configuration used to pool database connections
   pool: {
     max: 5,
     idle: 30000,
-    acquire: 60000
-  }
+    acquire: 60000,
+  },
 };
